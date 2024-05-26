@@ -1,0 +1,114 @@
+{% load static %}
+
+<html>
+
+<head>
+  <title>Film Night - Vote</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'polls/main.css' %}">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+
+
+<div class="container h-100">
+  <div class="row justify-content-center h-100">
+    <div class="col-12 col-md-4 align-self-center">
+      <h1 class="text-center">🎥</h1>
+      <p class="text-center lead mb-0">How much do you want to watch each
+        film?</p>
+      <p class="text-center"><small>Give them a rating out of 5. Vote for as many as you like. Those
+        you skip will receive a default of zero.</small></p>
+      <p class="text-center"><a href="/results">View results</a></p>
+    </div>
+    <div class="col-12 col-md-8 align-self-center">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="film_order" value="{% for film in films %}{{film.id}} {% endfor %}" />
+        <table class="table table-hover">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col"></th>
+            {% for i in voting_options %}
+            <th scope="col" class="text-center">{{ i }}</th>
+            {% endfor %}
+          </tr>
+          </thead>
+          <tbody>
+          {% for film in films %}
+          <tr>
+            <th>{{ film.name }}</th>
+            {% for i in voting_options %}
+            <td class="align-middle text-center">
+              <label>
+                <input
+                    type="radio"
+                    name="film_{{ film.id }}_score"
+                    value="{{ i }}"
+                    {% if voted %}
+                    disabled
+                    {% if film.score == i %}checked{% endif %}
+                    {% endif %}>
+              </label>
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% if not voted %}
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <input type="text" class="form-control" id="voter_name"
+                   name="name" placeholder="Enter your name"
+                   data-bs-toggle="tooltip" data-bs-placement="top"
+                   title="Just so we know who's voted. Results are anonymous!">
+          </div>
+          <div class="col-auto text-center">
+            <button type="submit" class="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+
+        {% else %}
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <p>Thanks for voting, {{ voter_name }}!</p>
+          </div>
+        </div>
+
+        {% endif %}
+
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<script src="main.js"></script>
+<script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+
+</script>
+</body>
+
+</html>

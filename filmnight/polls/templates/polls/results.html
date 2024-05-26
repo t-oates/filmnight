@@ -1,0 +1,71 @@
+{% load static %}
+
+<html>
+
+<head>
+  <title>Film Night - Results</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'polls/main.css' %}">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+
+
+<div class="container h-100">
+  <div class="row justify-content-center h-100">
+    <div class="col-12 col-md-4 align-self-center">
+      <h1 class="text-center">🎥</h1>
+      <p class="text-center lead mb-0">Results</p>
+      <p class="text-center"><a href="/">Back to voting</a></p>
+    </div>
+    <div class="col-12 col-md-8 align-self-center">
+        <table class="table table-hover">
+          <tbody>
+          {% for film in films %}
+          <tr>
+            <th>{{ film.name }}</th>
+            {% for voter in voters %}
+            <td class="align-middle text-center">
+              {% for vote in votes %}
+                {% if vote.voter.id == voter.id and vote.film.id == film.id %}
+                  {{ vote.score }}
+                {% endif %}
+              {% endfor %}
+            </td>
+            {% endfor %}
+            <th>{{ film.total }}</th>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<script src="main.js"></script>
+<script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+
+</script>
+</body>
+
+</html>

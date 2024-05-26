@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gpi0s_p4=#s9pra2$r0&k5&d@hq_fji4j+m#)xf@g*s1ip(=g=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['filmnight.pythonanywhere.com']
 
 
 # Application definition
